@@ -1,7 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { IUser } from '../types/user';
+import userModel from '../db/models/user';
+import bcrypt from 'bcrypt';
 
-const generateToken = (user: IUser): string => {
+
+
+
+export const generateToken = (user: IUser) => {
     const secretKey = process.env.ACCESS_TOKEN_SECRET as string; // Type assertion
     const accessToken = jwt.sign({ id: user.id, role: user.role }, secretKey, {
         // You can specify the expiration time if needed
@@ -11,4 +16,24 @@ const generateToken = (user: IUser): string => {
     return accessToken;
 };
 
-export default generateToken;
+export const getUserByEmail = async (email: string) => {
+    const user = await userModel.findOne({ email });
+    return user;
+
+}
+
+export const addUser =  async () => {
+   const addUser =  await userModel.create();
+   return addUser;
+}
+
+export const hash = async (value: string) => {
+    const hashedValue = await bcrypt.hash(value, 12);
+    return hashedValue;
+};
+
+export const comparePassword = async (value: string, hashedValue: string) => {
+    const matched = await bcrypt.compare(value, hashedValue);
+    return matched;
+};
+
