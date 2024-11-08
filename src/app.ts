@@ -25,8 +25,6 @@ mongoose.connect(process.env.MONGODB_URI as string)
   };
 
   app.get('/', check);
-// app.get('/', (req: Request, res: Response) => res.send('Express + TypeScript Server')); // Health check
-
 // V1 Routes
 app.use('/v1', routesV1);
 
