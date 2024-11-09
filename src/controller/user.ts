@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { registerSchema } from "../validator/user";
-import { addUser, getUserByEmail, hash } from "../utils/auth";
+import { loginSchema, registerSchema } from "../validator/user";
+import { addUser, comparePassword, generateToken, getUserByEmail, hash } from "../utils/auth";
 import ApiError from "../utils/api-error";
 
 export default class UserController { 
-  static registerAPi = async (req: Request, res: Response, next: NextFunction) => {
+  static registerUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await registerSchema.validateAsync(req.body);
 
@@ -22,4 +22,25 @@ export default class UserController {
       return next(e);
     }
   };
+  static loginUser = async (req: Request, res: Response, next: NextFunction) => {
+    try{
+      const result = await loginSchema.validateAsync(req.body);
+      const user = await getUserByEmail(result.email);
+      if (!user) return next(ApiError.customError(404, 'User not found'));
+      const isPasswordMatch = await comparePassword(result.password, user.password);
+      if (!isPasswordMatch) return next(ApiError.customError(400, 'Incorrect Password'));
+
+      const token = generateToken(user);
+      
+      return res.status(200).json({
+        status: 200,
+        data: { message: 'Login successful', token },
+        error: null
+      });
+    } catch (e) {
+      return next(e);
+    }
+ 
+  }
+
 }

@@ -7,7 +7,7 @@ export const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   mobileNo: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  userName: { type: String, required: true },
+  userName: { type: String, required: true, unique: true },
   role: { type: String, enum: IRoles, required: true },
   branchId: {type: Number},
 }, { timestamps: true });
