@@ -1,5 +1,6 @@
 import { Router } from "express";
 import dotenv from 'dotenv';
+import authRoute from '../v1/auth-routes';
 
 const router = Router();
 dotenv.config();
@@ -11,7 +12,14 @@ interface IRoutes {
 
 
 // Production Routes
-const productionRoutes: IRoutes[] = [];
+const productionRoutes: IRoutes[] = [
+
+  {
+    path: '/auth',
+    route: authRoute,
+  },
+];
+
 
 
 // Setting the production route

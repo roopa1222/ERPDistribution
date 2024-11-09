@@ -28,7 +28,7 @@ const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: R
   try {
     const secret = process.env.JWT_SECRET as string;
 
-    // Wrapping the synchronous jwt.verify() in a Promise to use await
+    // Directly use jwt.verify as it's already asynchronous, return a promise automatically
     const decoded = await new Promise<JwtPayload>((resolve, reject) => {
       jwt.verify(token, secret, (err, decoded) => {
         if (err) {

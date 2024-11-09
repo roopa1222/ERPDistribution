@@ -4,8 +4,6 @@ import path from 'path';
 import morgan, { StreamOptions } from 'morgan';
 import logger from '../utils/winston';
 
-const fileLocation = process.env.FILE_LOCATION as string;
-if (!fileLocation) throw Error('Environment: FILE_LOCATION is undefined');
 
 // Create a write stream for the access log file
 const accessLogStream = fs.createWriteStream(path.join(process.cwd(), 'logs', 'access.log'), { flags: 'a' });
