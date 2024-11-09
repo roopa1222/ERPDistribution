@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { IRoles } from '../types/user';
+import { IRoles } from '../types/user'; // Ensure the correct import path
+import ApiError from '../utils/api-error';
 
 export interface CustomRequest extends Request {
   user?: {
@@ -17,18 +18,27 @@ interface JwtPayload {
   role: IRoles;
 }
 
-const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: Response, next: NextFunction) => {
+const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return res.status(401).json({ message: 'Access denied, token missing!' });
+    return next(ApiError.forbidden());  // No token, forbidden access
   }
 
   try {
     const secret = process.env.JWT_SECRET as string;
-    const decoded = jwt.verify(token, secret) as JwtPayload;
 
-    // Attach user details to req.user
+    // Wrapping the synchronous jwt.verify() in a Promise to use await
+    const decoded = await new Promise<JwtPayload>((resolve, reject) => {
+      jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+          return reject(err);  // Reject the promise if verification fails
+        }
+        resolve(decoded as JwtPayload);  // Resolve the promise with decoded JWT payload
+      });
+    });
+
+    // Attach user details to req.user if decoding is successful
     req.user = {
       email: decoded.email,
       id: decoded._id,
@@ -36,13 +46,14 @@ const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: R
       token: token,
     };
 
+    // Check if the user's role is authorized
     if (!roles.includes(decoded.role)) {
-      return res.status(403).json({ message: 'Access denied' });
+      return next(ApiError.forbidden());  // Forbidden, user doesn't have the right role
     }
 
-    next();
+    return next();  // Continue to the next middleware or route handler
   } catch (err) {
-    return res.status(403).json({ message: 'Invalid token!' });
+    return next(ApiError.badRequest());  // Catch JWT errors, such as invalid token
   }
 };
 

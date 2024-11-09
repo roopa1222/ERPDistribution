@@ -1,7 +1,9 @@
 export interface IUser {
     branchId: number,
-    name: string;
+    firstName: string;
+    lastName:string
     email: string,
+    mobileNo:string;
     password: string;
     userName: string;
     role: string;

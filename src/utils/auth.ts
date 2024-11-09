@@ -22,8 +22,8 @@ export const getUserByEmail = async (email: string) => {
 
 }
 
-export const addUser =  async () => {
-   const addUser =  await userModel.create();
+export const addUser =  async (data: object) => {
+   const addUser =  await userModel.create(data);
    return addUser;
 }
 
