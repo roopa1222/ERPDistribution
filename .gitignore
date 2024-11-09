@@ -1,1 +1,14 @@
-/node_modules
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+dist/
+logs/
+.env
+ecosystem.config.js
+uploads/
+barcode/
+migration/
+public/
