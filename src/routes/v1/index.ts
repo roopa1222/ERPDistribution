@@ -16,7 +16,7 @@ const productionRoutes: IRoutes[] = [];
 
 // Setting the production route
 productionRoutes.forEach((route) => {
-    router.use(route.path, route.route);
-  });
+  router.use(route.path, route.route);
+});
   
-  export default router;
+export default router;

@@ -20,11 +20,11 @@ mongoose.connect(process.env.MONGODB_URI as string)
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 
-  const check = (req: Request, res: Response) => {
-    res.send('Express + TypeScript Server...');
-  };
+const check = (req: Request, res: Response) => {
+  res.send('Express + TypeScript Server...');
+};
 
-  app.get('/', check);
+app.get('/', check);
 // V1 Routes
 app.use('/v1', routesV1);
 

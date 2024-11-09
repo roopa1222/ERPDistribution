@@ -1,31 +1,31 @@
-// eslint.config.js
-import parser from "@typescript-eslint/parser";
-import typescriptPlugin from "@typescript-eslint/eslint-plugin";
+import globals from "globals";
+import jsPlugin from "@eslint/js";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
+/** @type {import("eslint").Linter.FlatConfig[]} */
 export default [
   {
+    files: ["**/*.{js,mjs,cjs,ts}"],
     languageOptions: {
-      parser,
+      globals: globals.browser,
+      parser: tsParser,
       parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: "module",
+        project: "./tsconfig.json",
       },
     },
     plugins: {
-      "@typescript-eslint": typescriptPlugin, // Load plugin rules directly
+      "@typescript-eslint": tsPlugin,  // Explicitly include TypeScript plugin
     },
     rules: {
-      // General rules
-      "no-unused-vars": "off",
-      "linebreak-style": "off",
-      "import/no-cycle": "off",
-      "max-len": ["error", { code: 300 }],
-      "no-await-in-loop": "off",
+      // General JavaScript rules
+      ...jsPlugin.configs.recommended.rules,
+      // TypeScript-specific rules
+      ...tsPlugin.configs.recommended.rules,
+      // Custom rules
       "semi": ["error", "always"],
       "indent": ["error", 2],
-
-      // TypeScript-specific rules
-      "@typescript-eslint/ban-ts-comment": "error", // Enable the rule directly
+      "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
 ];

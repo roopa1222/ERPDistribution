@@ -1,5 +1,5 @@
 import { Router
- } from "express";
+} from "express";
 import authenticateToken from "../../middlewares/auth";
 import { IRoles } from "../../types/user";
 import UserController from "../../controller/user";

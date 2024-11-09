@@ -19,27 +19,27 @@ export enum IApiErrors {
     DUPLICATE_ENTRY = 'Duplicate Entry Found',
   }
   
-  export const jwtError = new Map([
-    [400, 'Bad Request'],
-    [401, 'Unauthorized'],
-    [403, 'Forbidden'],
-    [404, 'Resource not found'],
-    [405, 'Method not allowed'],
-    [415, 'Unsupported Media'],
-    [422, 'Bad Request'],
-    [409, 'Duplicate Entry Found'],
-  ]);
+export const jwtError = new Map([
+  [400, 'Bad Request'],
+  [401, 'Unauthorized'],
+  [403, 'Forbidden'],
+  [404, 'Resource not found'],
+  [405, 'Method not allowed'],
+  [415, 'Unsupported Media'],
+  [422, 'Bad Request'],
+  [409, 'Duplicate Entry Found'],
+]);
 
-  export interface ICellError {
+export interface ICellError {
     columnName: string | number,
     message: string
   }
-  export interface IExcelParseError {
+export interface IExcelParseError {
     srNo: number,
     errors: ICellError[]
   }
   
-  export interface IError {
+export interface IError {
     label:string,
     msg:string
   }
