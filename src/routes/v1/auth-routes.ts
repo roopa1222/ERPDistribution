@@ -9,4 +9,6 @@ router.post('/add-user', authenticateToken([IRoles.SUPER_ADMIN]), UserController
 
 router.post('/login', UserController.loginUser);
 
+router.get('/get-all-users', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN]), UserController.getAllUser);
+
 export default router;

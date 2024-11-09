@@ -7,7 +7,6 @@ export interface IUser {
     password: string;
     userName: string;
     role: string;
-    id: number;
 }
 
 export enum IRoles {

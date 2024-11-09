@@ -1,6 +1,7 @@
 import { Router } from "express";
 import dotenv from 'dotenv';
 import authRoute from '../v1/auth-routes';
+import branchRoute from '../v1/branch-routes';
 
 const router = Router();
 dotenv.config();
@@ -17,6 +18,10 @@ const productionRoutes: IRoutes[] = [
   {
     path: '/auth',
     route: authRoute,
+  },
+  {
+    path: '/branch',
+    route: branchRoute,
   },
 ];
 

@@ -16,4 +16,4 @@ export const loginSchema = Joi.object({
   email: Joi.string().email({ tlds: { allow: false } }).regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/).required(),
   password: Joi.string().required(),
   
-})
+});

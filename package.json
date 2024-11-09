@@ -2,6 +2,7 @@
   "name": "erpdistribution",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "ts-node /src/app.ts",

@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 
 
 
-export const generateToken = (user: IUser) => {
+export const generateToken = (user: any) => {
   const secretKey = process.env.ACCESS_TOKEN_SECRET as string; // Type assertion
   const accessToken = jwt.sign({ id: user.id, email: user.email }, secretKey, {
     // You can specify the expiration time if needed
@@ -35,5 +35,10 @@ export const hash = async (value: string) => {
 export const comparePassword = async (value: string, hashedValue: string) => {
   const matched = await bcrypt.compare(value, hashedValue);
   return matched;
+};
+
+export const getAllUsers = async () => {
+  const users = await userModel.find({});
+  return users;
 };
 

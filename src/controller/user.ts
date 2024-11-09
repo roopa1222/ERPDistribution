@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { loginSchema, registerSchema } from "../validator/user";
-import { addUser, comparePassword, generateToken, getUserByEmail, hash } from "../utils/auth";
+import { addUser, comparePassword, generateToken, getAllUsers, getUserByEmail, hash } from "../utils/auth";
 import ApiError from "../utils/api-error";
 
 export default class UserController { 
@@ -40,7 +40,16 @@ export default class UserController {
     } catch (e) {
       return next(e);
     }
- 
+  };
+
+  static getAllUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const users = await getAllUsers();
+      if (!users.length) return next(ApiError.customError(404, 'No users found'));
+      return res.status(200).json({ status: 200, data: users, error: null });
+    } catch (e) {
+      return next(e);
+    }
   }
 
 }
