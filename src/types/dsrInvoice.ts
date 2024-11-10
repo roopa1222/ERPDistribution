@@ -3,9 +3,12 @@ export interface IDsrInvoice {
   productCode: string
   paymentMode: IPaymentMode;
   customerName: string;
-  mobileNo: string;
+  CustomerMobileNo: string;
   total: number;
-  expense: number;
+  expence: string;
+  expenceAmount: number;
+  amount: number;
+  branchId: string;
 }
 
 export enum IPaymentMode {

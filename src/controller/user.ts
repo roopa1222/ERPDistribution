@@ -45,11 +45,11 @@ export default class UserController {
   static getAllUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const users = await getAllUsers();
-      if (!users.length) return next(ApiError.customError(404, 'No users found'));
+      if (!users) return next(ApiError.customError(404, 'No users found'));
       return res.status(200).json({ status: 200, data: users, error: null });
     } catch (e) {
       return next(e);
     }
-  }
+  };
 
 }
