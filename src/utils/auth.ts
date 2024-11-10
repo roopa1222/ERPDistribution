@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 
 export const generateToken = (user: any) => {
   const secretKey = process.env.ACCESS_TOKEN_SECRET as string; // Type assertion
-  const accessToken = jwt.sign({ id: user.id, email: user.email }, secretKey, {
+  const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, secretKey, {
     // You can specify the expiration time if needed
     expiresIn: '7d',
   });

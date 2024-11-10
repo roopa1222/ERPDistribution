@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { createBranches, getAllBranches } from "../utils/branch";
 import ApiError from "../utils/api-error";
-import { addBranchSchema } from "../validator/branch";
+import { addBranchSchema, bulkBranchSchema } from "../validator/branch";
 
 export default class BranchController {
 
@@ -18,9 +18,9 @@ export default class BranchController {
 
   static addBraches = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await addBranchSchema.validateAsync(req.body);
-      for (let i = 0; i < result.branchName.length; i += 1) {
-        const createBranch = await createBranches(result[i].branchName);
+      const result = await bulkBranchSchema.validateAsync(req.body);
+      for (let i = 0; i < result.length; i += 1) {
+        const createBranch = await createBranches({ branchName: result[i].branchName });
         if (!createBranch) return next(ApiError.customError(422, 'Branch not created.'));
       }
       return res.status(200).json({ status: 200, data: { message: 'Branch Created Successfully.' }, error: null });

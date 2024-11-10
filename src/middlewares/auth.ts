@@ -13,7 +13,7 @@ export interface CustomRequest extends Request {
 }
 
 interface JwtPayload {
-  _id: number;
+  id: number;
   email: string;
   role: IRoles;
 }
@@ -26,7 +26,7 @@ const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: R
   }
 
   try {
-    const secret = process.env.JWT_SECRET as string;
+    const secret = process.env.ACCESS_TOKEN_SECRET as string;
 
     // Directly use jwt.verify as it's already asynchronous, return a promise automatically
     const decoded = await new Promise<JwtPayload>((resolve, reject) => {
@@ -41,7 +41,7 @@ const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: R
     // Attach user details to req.user if decoding is successful
     req.user = {
       email: decoded.email,
-      id: decoded._id,
+      id: decoded.id,
       role: decoded.role,
       token: token,
     };
