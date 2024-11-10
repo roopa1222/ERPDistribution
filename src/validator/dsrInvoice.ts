@@ -4,27 +4,23 @@ import { IPaymentMode } from "../types/dsrInvoice";
 export const createDsrInvoiceSchema = Joi.object({
   productName: Joi.string().required(),
   productCode: Joi.string().optional(),
-  paymentMode: Joi.string().valid(...Object.values(IPaymentMode)).required(),
+  paymentMode: Joi.array().items(Joi.string().valid(...Object.values(IPaymentMode))).required(), // This allows an array of payment modes
   amount: Joi.number().optional(),
   customerName: Joi.string().optional(),
-  CustomerMobileNo: Joi.number().optional(),
+  customerMobileNo: Joi.number().optional(),
   total: Joi.number().optional(),
-  expence: Joi.number().optional(),
-  expenceAmount: Joi.number().optional(),
   branchId: Joi.string().required(),
 });
 
 export const updateDsrInvoiceSchema = Joi.object({
-  id: Joi.number().required(),
+  id: Joi.string().required(),
   productName: Joi.string().required(),
   productCode: Joi.string().optional(),
-  paymentMode: Joi.string().valid(...Object.values(IPaymentMode)).required(),
+  paymentMode: Joi.array().items(Joi.string().valid(...Object.values(IPaymentMode))).required(), // This allows an array of payment modes
   amount: Joi.number().optional(),
   customerName: Joi.string().optional(),
-  CustomerMobileNo: Joi.number().optional(),
+  customerMobileNo: Joi.number().optional(),
   total: Joi.number().optional(),
-  expence: Joi.number().optional(),
-  expenceAmount: Joi.number().optional(),
   branchId: Joi.string().required(),
 });
 

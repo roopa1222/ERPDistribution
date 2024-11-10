@@ -5,8 +5,8 @@ import authenticateToken from "../../middlewares/auth";
 
 const router = Router();
 
-router.get('/all-branches', authenticateToken([IRoles.SUPER_ADMIN]), BranchController.getAllBranch);
+router.get('/all-branches', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN]), BranchController.getAllBranch);
 
-router.post('/add-branch', BranchController.addBraches);
+router.post('/add-branch', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN]),BranchController.addBraches);
 
 export default router;

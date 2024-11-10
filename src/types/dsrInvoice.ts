@@ -1,7 +1,7 @@
 export interface IDsrInvoice {
   productName: string;
   productCode: string
-  paymentMode: IPaymentMode;
+  paymentMode: IPaymentMode[];
   customerName: string;
   CustomerMobileNo: string;
   total: number;

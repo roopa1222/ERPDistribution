@@ -2,6 +2,7 @@ import dsrInvoiceModel from "../db/models/dsrInvoice";
 
 
 export const createDsrInvoice = async (data: object) => {
+  console.log('step-1', data);
   const dsrInvoice = await dsrInvoiceModel.create(data);
   return dsrInvoice;
 };

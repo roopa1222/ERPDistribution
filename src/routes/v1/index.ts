@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import authRoute from '../v1/auth-routes';
 import branchRoute from '../v1/branch-routes';
 import dsrInvoiceRoute from "../v1/dsrInvoice-routes";
+import dailyExpenceRoute from "../v1/dailyExpence-routes.ts";
 
 const router = Router();
 dotenv.config();
@@ -29,6 +30,11 @@ const productionRoutes: IRoutes[] = [
     path: '/dsrInvoice',
     route: dsrInvoiceRoute,
   },
+  {
+    path: '/dailyExpence',
+    route: dailyExpenceRoute,
+
+  }
 ];
 
 

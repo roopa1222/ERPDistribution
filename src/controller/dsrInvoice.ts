@@ -15,9 +15,10 @@ export default class DsrInvoiceController {
       if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
 
       const addDsrInvoice = await createDsrInvoice(result);
+      console.log('add', addDsrInvoice);
       if (!addDsrInvoice) return next(ApiError.customError(422, 'DSR Invoice Not Created'));
 
-      return res.status(200).json({ status: 200, data: { message: 'User Created Successfully.' }, error: null });
+      return res.status(200).json({ status: 200, data: { message: 'DSR Invoice Created Successfully.' }, error: null });
 
     } catch (e) {
       next(e);
