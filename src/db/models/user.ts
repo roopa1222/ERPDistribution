@@ -9,7 +9,7 @@ export const userSchema = new Schema<IUser>({
   password: { type: String, required: true },
   userName: { type: String, required: true, unique: true },
   role: { type: String, enum: IRoles, required: true },
-  branchId: {type: Number},
+  branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' }
 }, { timestamps: true });
   
 const userModel = mongoose.model<IUser>('User', userSchema);

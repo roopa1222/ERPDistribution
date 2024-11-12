@@ -1,5 +1,7 @@
+import { Types } from "mongoose";
+
 export interface IUser {
-    branchId: number,
+    branchId: string | Types.ObjectId,
     firstName: string;
     lastName:string
     email: string,

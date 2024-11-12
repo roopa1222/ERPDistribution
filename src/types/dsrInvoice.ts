@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export interface IDsrInvoice {
   productName: string;
   productCode: string
@@ -8,7 +10,7 @@ export interface IDsrInvoice {
   expence: string;
   expenceAmount: number;
   amount: number;
-  branchId: string;
+  branchId: string | Types.ObjectId;
 }
 
 export enum IPaymentMode {

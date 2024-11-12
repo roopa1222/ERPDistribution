@@ -7,7 +7,8 @@ export const dailyExpenceSchema = new Schema<IDailyExpence>({
   expenceAmount: { type: Number, required: true },
   openingBalance: { type: Number, required: true },
   closingBalance: { type: Number, required: true },
-  branchId: { type: String, required: true }
+  branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' }
+
 }, { timestamps: true });
   
 const dailyExpenceModel = mongoose.model<IDailyExpence>('dailyExpence', dailyExpenceSchema);

@@ -12,8 +12,7 @@ export const dsrInvoiceSchema = new Schema<IDsrInvoice>({
   expence: { type: String, required: true }, 
   expenceAmount: { type: Number, required: true },
   productCode: { type: String, required: true},
-  branchId: { type: String, required: true }
-}, { timestamps: true });
+  branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' }}, { timestamps: true });
   
 const dsrInvoiceModel = mongoose.model<IDsrInvoice>('dsrInvoice', dsrInvoiceSchema);
 console.log('DSR Invoice Model Created Successfully');
