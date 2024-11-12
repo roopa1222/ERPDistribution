@@ -12,8 +12,17 @@ function errorHandlingMiddleWare(err: unknown, req: Request, res: Response, next
   logger.error(err);
 
   // API Error
+  // if (err instanceof ApiError) {
+  //   return res.status(err.code).json({ status: err.code, data: null, error: err.message });
+  // }
+
+  const sanitizeMessage = (message: string): string => message.replace(/\x1b\[[0-9;]*m/g, '');
+
+  // API Error
   if (err instanceof ApiError) {
-    return res.status(err.code).json({ status: err.code, data: null, error: err.message });
+    // Sanitize the message
+    const cleanMessage = sanitizeMessage(err.message);
+    return res.status(err.code).json({ status: err.code, data: null, error: cleanMessage });
   }
 
   // JOI Error
