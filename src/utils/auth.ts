@@ -38,7 +38,11 @@ export const comparePassword = async (value: string, hashedValue: string) => {
 };
 
 export const getAllUsers = async () => {
-  const users = await userModel.find({}).populate('branchId', 'branchName');;
+  const users = await userModel.find({})
+    .populate({
+      path: 'branchId',
+      select: 'branchName'
+    });
   return users;
 };
 
