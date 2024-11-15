@@ -3,7 +3,8 @@ import { Types } from "mongoose";
 export interface IDsrInvoice {
   productName: string;
   productCode: string
-  paymentMode: IPaymentMode[];
+  paymentMode: IPaymentMode[]
+  paymentDetails: IPaymentDetail[];
   customerName: string;
   CustomerMobileNo: string;
   total: number;
@@ -11,6 +12,7 @@ export interface IDsrInvoice {
   expenceAmount: number;
   amount: number;
   branchId: string | Types.ObjectId;
+  financeName: string;
 }
 
 export enum IPaymentMode {
@@ -19,5 +21,10 @@ export enum IPaymentMode {
     Credit = "Credit",
     Cash = "Cash",
     Pending = "Pending",
-    TwoFinance = "2Finance",
+    Finance = "Finance",
   }
+
+export interface IPaymentDetail {
+  paymentMode:IPaymentMode;
+  amount: number;
+}

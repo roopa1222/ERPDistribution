@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 
 export const generateToken = (user: any) => {
   const secretKey = process.env.ACCESS_TOKEN_SECRET as string; // Type assertion
-  const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, secretKey, {
+  const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role, branchId: user.branchId }, secretKey, {
     // You can specify the expiration time if needed
     expiresIn: '7d',
   });
@@ -38,11 +38,36 @@ export const comparePassword = async (value: string, hashedValue: string) => {
 };
 
 export const getAllUsers = async () => {
-  const users = await userModel.find({})
-    .populate({
-      path: 'branchId',
-      select: 'branchName'
-    });
+  const users = await userModel.aggregate([
+    {
+      $lookup: {
+        from: 'branches',        // The name of the collection you are joining with (should be plural of the model name)
+        localField: 'branchId',   // The field in your user model
+        foreignField: '_id',      // The field in the branch model
+        as: 'branchDetails'       // The alias for the resulting array of joined documents
+      }
+    },
+    {
+      $unwind: '$branchDetails'  // Unwind the branchDetails array to merge the data into the user document
+    },
+    {
+      $project: {
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        email: 1,
+        mobileNo: 1,
+        userName: 1,
+        role: 1,
+        branchId: 1,
+        branchName: '$branchDetails.branchName',  // Include branchName from the branchDetails
+        createdAt: 1,
+        updatedAt: 1
+      }
+    }
+  ]);
+
   return users;
 };
+
 

@@ -9,6 +9,7 @@ export interface CustomRequest extends Request {
     id: number;
     role: IRoles;
     token: string;
+    branchId: string;
   };
 }
 
@@ -16,6 +17,7 @@ interface JwtPayload {
   id: number;
   email: string;
   role: IRoles;
+  branchId: string;
 }
 
 const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -44,6 +46,7 @@ const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: R
       id: decoded.id,
       role: decoded.role,
       token: token,
+      branchId: decoded.branchId,
     };
 
     // Check if the user's role is authorized

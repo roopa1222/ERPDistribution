@@ -1,21 +1,28 @@
-import mongoose, { Schema } from "mongoose";
-import { IDsrInvoice , IPaymentMode} from "../../types/dsrInvoice";
+import mongoose, { Schema, Document, Types } from 'mongoose';
+import { IDsrInvoice, IPaymentDetail, IPaymentMode } from "../../types/dsrInvoice";
 
+// Define the schema for payment details
+const paymentDetailSchema = new Schema<IPaymentDetail>({
+  paymentMode: { type: String, enum: Object.values(IPaymentMode), required: true },
+  amount: { type: Number, required: true },
+});
 
-export const dsrInvoiceSchema = new Schema<IDsrInvoice>({
+// Define the main schema for invoices
+const dsrInvoiceSchema = new Schema<IDsrInvoice>({
   productName: { type: String, required: true },
   paymentMode: { type: [String], enum: IPaymentMode, required: true },
+  paymentDetails: { type: [paymentDetailSchema], required: true }, // Use the embedded schema
   customerName: { type: String, required: true },
   CustomerMobileNo: { type: String, required: true },
-  amount: { type: Number, required: true },
+  financeName: { type: String},
   total: { type: Number, required: true },
-  expence: { type: String, required: true }, 
+  expence: { type: String, required: true },
   expenceAmount: { type: Number, required: true },
-  productCode: { type: String, required: true},
-  branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' }}, { timestamps: true });
-  
+  productCode: { type: String, required: true },
+  branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' },
+}, { timestamps: true });
+
+// Define the model
 const dsrInvoiceModel = mongoose.model<IDsrInvoice>('dsrInvoice', dsrInvoiceSchema);
-console.log('DSR Invoice Model Created Successfully');
 
 export default dsrInvoiceModel;
-  

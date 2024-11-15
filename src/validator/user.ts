@@ -8,7 +8,7 @@ export const registerSchema = Joi.object({
   password: Joi.string().required(),
   userName: Joi.string().required(),
   role: Joi.string().required().valid(...Object.values(IRoles)),
-  branchId:Joi.number().optional(),
+  branchId:Joi.string().optional(),
   mobileNo: Joi.string().required(),
 });
 
