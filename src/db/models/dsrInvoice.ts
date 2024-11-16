@@ -3,7 +3,7 @@ import { IDsrInvoice, IPaymentDetail, IPaymentMode } from "../../types/dsrInvoic
 
 // Define the schema for payment details
 const paymentDetailSchema = new Schema<IPaymentDetail>({
-  paymentMode: { type: String, enum: Object.values(IPaymentMode), required: true },
+  mode: { type: String, enum: Object.values(IPaymentMode), required: true },
   amount: { type: Number, required: true },
 });
 

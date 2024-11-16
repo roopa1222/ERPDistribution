@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createDsrInvoiceSchema, updateDsrInvoiceSchema } from "../validator/dsrInvoice";
+import { createDsrInvoiceSchema, getDsrInvoiceSchema, updateDsrInvoiceSchema } from "../validator/dsrInvoice";
 import { createDsrInvoice, updateDsrInvoice } from "../utils/dsrInvoice";
 import ApiError from "../utils/api-error";
 import { getBranchById } from "../utils/branch";
@@ -14,7 +14,7 @@ export default class DsrInvoiceController {
       const result = await createDsrInvoiceSchema.validateAsync(req.body);
 
        const user = req.user
-       console.log('user', user)
+
      // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
      if (user?.role === IRoles.SALESMAN) {
       const branchIdFromToken = user.branchId;

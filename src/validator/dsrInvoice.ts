@@ -2,7 +2,7 @@ import Joi from "joi";
 import { IPaymentMode } from "../types/dsrInvoice";
 
 const paymentDetailSchema = Joi.object({
-  paymentMode: Joi.string().valid(...Object.values(IPaymentMode)).required(), // Enum validation for payment mode
+  mode: Joi.string().valid(...Object.values(IPaymentMode)).required(), // Enum validation for payment mode
   amount: Joi.number().required(), // Amount is required
 });
 

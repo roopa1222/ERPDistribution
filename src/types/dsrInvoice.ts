@@ -25,6 +25,6 @@ export enum IPaymentMode {
   }
 
 export interface IPaymentDetail {
-  paymentMode:IPaymentMode;
+  mode:IPaymentMode;
   amount: number;
 }
