@@ -14,7 +14,7 @@ export const createDsrInvoiceSchema = Joi.object({
   financeName: Joi.string().optional(),
   customerName: Joi.string().optional().allow(null).allow(''),
   customerMobileNo: Joi.number().optional().allow(null).allow(''),
-  total: Joi.number().optional(),
+  totalAmount: Joi.number().optional(),
   branchId: Joi.string().optional(),
 });
 
@@ -27,7 +27,7 @@ export const updateDsrInvoiceSchema = Joi.object({
   financeName: Joi.string().optional(),
   customerName: Joi.string().optional(),
   customerMobileNo: Joi.number().optional(),
-  total: Joi.number().optional(),
+  totalAmount: Joi.number().optional(),
   branchId: Joi.string().required(),
 });
 

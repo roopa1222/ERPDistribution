@@ -15,7 +15,7 @@ const dsrInvoiceSchema = new Schema<IDsrInvoice>({
   customerName: { type: String, required: true },
   CustomerMobileNo: { type: String, required: true },
   financeName: { type: String},
-  total: { type: Number, required: true },
+  totalAmount: { type: Number, required: true },
   expence: { type: String, required: true },
   expenceAmount: { type: Number, required: true },
   productCode: { type: String, required: true },

@@ -7,7 +7,7 @@ export interface IDsrInvoice {
   paymentDetails: IPaymentDetail[];
   customerName: string;
   CustomerMobileNo: string;
-  total: number;
+  totalAmount: number;
   expence: string;
   expenceAmount: number;
   amount: number;
