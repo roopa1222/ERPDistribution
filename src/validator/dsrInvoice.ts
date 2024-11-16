@@ -8,12 +8,12 @@ const paymentDetailSchema = Joi.object({
 
 export const createDsrInvoiceSchema = Joi.object({
   productName: Joi.string().required(),
-  productCode: Joi.string().optional(),
+  productCode: Joi.string().optional().allow('').allow(null),
   paymentMode: Joi.array().items(Joi.string().valid(...Object.values(IPaymentMode))).required(), // This allows an array of payment modes
   paymentDetails: Joi.array().items(paymentDetailSchema).required(), // Array of payment details
   financeName: Joi.string().optional(),
-  customerName: Joi.string().optional(),
-  customerMobileNo: Joi.number().optional(),
+  customerName: Joi.string().optional().allow(null).allow(''),
+  customerMobileNo: Joi.number().optional().allow(null).allow(''),
   total: Joi.number().optional(),
   branchId: Joi.string().optional(),
 });
