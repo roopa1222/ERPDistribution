@@ -3,10 +3,10 @@ import { IDailyExpence } from "../../types/dailyExpence";
 
 
 export const dailyExpenceSchema = new Schema<IDailyExpence>({
-  expenceNarration: { type: String, required: true }, 
-  expenceAmount: { type: Number, required: true },
-  openingBalance: { type: Number, required: true },
-  closingBalance: { type: Number, required: true },
+  expenceNarration: { type: String}, 
+  expenceAmount: { type: Number},
+  openingBalance: { type: Number },
+  closingBalance: { type: Number },
   branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' }
 
 }, { timestamps: true });

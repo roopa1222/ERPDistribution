@@ -9,4 +9,6 @@ router.post('/add-dsr-invoice',authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADM
 
 router.put('/edit-dsr-invoice', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN]), DsrInvoiceController.updateDsrInvoice);
 
+router.get('/dsr-invoice', DsrInvoiceController.getDsrInvoiceDetails)
+
 export default router;

@@ -2,17 +2,15 @@ import { Types } from "mongoose";
 
 export interface IDsrInvoice {
   productName: string;
-  productCode: string
+  serialNo: string
   paymentMode: IPaymentMode[]
   paymentDetails: IPaymentDetail[];
   customerName: string;
-  CustomerMobileNo: string;
+  customerMobileNo: string;
   totalAmount: number;
-  expence: string;
-  expenceAmount: number;
-  amount: number;
   branchId: string | Types.ObjectId;
-  financeName: string;
+  financeDetails: IFinanceDetail[];
+  categoryType: ICategoryType
 }
 
 export enum IPaymentMode {
@@ -21,10 +19,23 @@ export enum IPaymentMode {
     Credit = "Credit",
     Cash = "Cash",
     Pending = "Pending",
-    Finance = "Finance",
+    Finance1 = "Finance1",
+    Finance2 = "Finance2",
+    BuyBack = "BuyBack",
   }
 
 export interface IPaymentDetail {
   mode:IPaymentMode;
   amount: number;
+}
+
+export interface IFinanceDetail {
+  financeName:string;
+  amount: number;
+}
+
+export enum ICategoryType {
+  MOBILE = "MOBILE",
+  ACCESSORIES = "ACCESSORIES",
+  ELECTRONICS = "ELECTRONICS",
 }

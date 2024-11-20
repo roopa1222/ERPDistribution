@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createDsrInvoiceSchema, getDsrInvoiceSchema, updateDsrInvoiceSchema } from "../validator/dsrInvoice";
-import { createDsrInvoice, updateDsrInvoice } from "../utils/dsrInvoice";
+import { createDsrInvoice, getAllDsrInvoice, updateDsrInvoice } from "../utils/dsrInvoice";
 import ApiError from "../utils/api-error";
 import { getBranchById } from "../utils/branch";
 import { IRoles, IUser } from "../types/user";
@@ -14,7 +14,6 @@ export default class DsrInvoiceController {
       const result = await createDsrInvoiceSchema.validateAsync(req.body);
 
        const user = req.user
-
      // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
      if (user?.role === IRoles.SALESMAN) {
       const branchIdFromToken = user.branchId;
@@ -45,8 +44,9 @@ export default class DsrInvoiceController {
        const branchIdFromToken = user.branchId;
        result.branchId = branchIdFromToken;
      } else {
-       const branch = await getBranchById(result.branchId);
-       if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+      if (!req.body.branchId) return next(ApiError.customError(422, 'branch is required'));
+      const branch = await getBranchById(result.branchId);
+      if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
      }
  
       const dsrInvoice = await updateDsrInvoice(result.id, result);
@@ -59,17 +59,19 @@ export default class DsrInvoiceController {
     }
   };
 
-  //  static getDsrInvoiceDetails = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //       const result = await getDsrInvoiceSchema.validateAsync(req.query);
-  //       const branch = await getBranchById(result.branchId);
-  //       if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+   static getDsrInvoiceDetails = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await getDsrInvoiceSchema.validateAsync(req.query);
+        const branch = await getBranchById(result.branchId);
+        if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+
+        const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate)
         
-  //       return res.status(200).json({ status: 200, data: {message: 'DSR Invoice Updated Successfully.'}, error: null});
-  //     } catch(e) {
-  //     return next(e);
-  //   }
-  //  }
+        return res.status(200).json({ status: 200, data: {dsrData}, error: null});
+      } catch(e) {
+      return next(e);
+    }
+   }
 
   static getDSRInvoiceExcelData = async (req: Request, res: Response, next: NextFunction)=>{
 
