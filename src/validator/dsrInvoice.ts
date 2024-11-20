@@ -20,7 +20,7 @@ export const createDsrInvoiceSchema = Joi.object({
   customerName: Joi.string().optional().allow(null).allow(''),
   customerMobileNo: Joi.number().optional().allow(null).allow(''),
   totalAmount: Joi.number().optional(),
-  categoryType: Joi.string().valid(...Object.values(ICategoryType)).required(),
+  category: Joi.string().valid(...Object.values(ICategoryType)).required(),
   branchId: Joi.string().optional().allow(null).allow('')
 });
 
@@ -34,7 +34,7 @@ export const updateDsrInvoiceSchema = Joi.object({
   customerName: Joi.string().optional(),
   customerMobileNo: Joi.number().optional(),
   totalAmount: Joi.number().optional(),
-  categoryType: Joi.string().valid(...Object.values(ICategoryType)).required(),
+  category: Joi.string().valid(...Object.values(ICategoryType)).required(),
   branchId: Joi.string().required(),
 });
 

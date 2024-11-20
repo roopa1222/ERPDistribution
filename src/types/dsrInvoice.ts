@@ -10,7 +10,7 @@ export interface IDsrInvoice {
   totalAmount: number;
   branchId: string | Types.ObjectId;
   financeDetails: IFinanceDetail[];
-  categoryType: ICategoryType
+  category: ICategoryType
 }
 
 export enum IPaymentMode {

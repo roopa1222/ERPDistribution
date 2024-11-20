@@ -88,7 +88,7 @@ console.log('Sample expense document:', sampleExpense);
         _id: 1,                
         productName: 1, 
         serialNo: 1,
-        categoryType: 1,  
+        category: 1,  
         paymentDetails: 1,
         financeDetails: 1, 
         customerName: 1,       
@@ -119,7 +119,7 @@ export const updateDsrInvoice = async (id: string, data: object) => {
 
 export const getMobileCount = async (branchId?: string, startDate?: string, endDate?: string) => {
   let query: any = {
-    categoryType: 'MOBILE'
+    category: 'MOBILE'
   };
 
   if (branchId) {
@@ -143,7 +143,7 @@ export const getMobileCount = async (branchId?: string, startDate?: string, endD
 
 export const getAccessoriesCount = async (branchId?: string, startDate?: string, endDate?: string) => {
   let query: any = {
-    categoryType: 'ACCESSORIES'
+    category: 'ACCESSORIES'
   };
 
   if (branchId) {
@@ -167,7 +167,7 @@ export const getAccessoriesCount = async (branchId?: string, startDate?: string,
 
 export const getElectronicCount = async (branchId?: string, startDate?: string, endDate?: string) => {
   let query: any = {
-    categoryType: 'ELECTRONICS'
+    category: 'ELECTRONICS'
   };
 
   if (branchId) {

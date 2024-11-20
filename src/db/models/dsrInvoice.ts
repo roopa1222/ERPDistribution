@@ -17,7 +17,7 @@ const dsrInvoiceSchema = new Schema<IDsrInvoice>({
   financeDetails: { type: [String]},
   totalAmount: { type: Number, required: true },
   serialNo: { type: String},
-  categoryType: { type: String, enum : ICategoryType, required: true },
+  category: { type: String, enum : ICategoryType, required: true },
   branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' },
 }, { timestamps: true });
 
