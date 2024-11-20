@@ -100,7 +100,7 @@ export default class DsrInvoiceController {
        electronicCount,
       }
       
-      return res.status(200).json({ status: 200, data: {dashBoardCount}, error: null});
+      return res.status(200).json({ status: 200, dashBoardCount, error: null});
     } catch (e) {
       return next(e);
     }
