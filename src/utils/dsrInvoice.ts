@@ -116,3 +116,75 @@ export const updateDsrInvoice = async (id: string, data: object) => {
   return dsrInvoice;
 
 };
+
+export const getMobileCount = async (branchId?: string, startDate?: string, endDate?: string) => {
+  let query: any = {
+    categoryType: 'MOBILE'
+  };
+
+  if (branchId) {
+    const mongoose = require('mongoose');
+    query.branchId = new mongoose.Types.ObjectId(branchId);
+  }
+
+  if (startDate || endDate) {
+    query.createdAt = {};
+    if (startDate) {
+      query.createdAt.$gte = new Date(startDate);
+    }
+    if (endDate) {
+      query.createdAt.$lte = new Date(endDate);
+    }
+  }
+
+  const count = await dsrInvoiceModel.countDocuments(query);
+  return  count ;
+};
+
+export const getAccessoriesCount = async (branchId?: string, startDate?: string, endDate?: string) => {
+  let query: any = {
+    categoryType: 'ACCESSORIES'
+  };
+
+  if (branchId) {
+    const mongoose = require('mongoose');
+    query.branchId = new mongoose.Types.ObjectId(branchId);
+  }
+
+  if (startDate || endDate) {
+    query.createdAt = {};
+    if (startDate) {
+      query.createdAt.$gte = new Date(startDate);
+    }
+    if (endDate) {
+      query.createdAt.$lte = new Date(endDate);
+    }
+  }
+
+  const count = await dsrInvoiceModel.countDocuments(query);
+  return count;
+};
+
+export const getElectronicCount = async (branchId?: string, startDate?: string, endDate?: string) => {
+  let query: any = {
+    categoryType: 'ELECTRONICS'
+  };
+
+  if (branchId) {
+    const mongoose = require('mongoose');
+    query.branchId = new mongoose.Types.ObjectId(branchId);
+  }
+
+  if (startDate || endDate) {
+    query.createdAt = {};
+    if (startDate) {
+      query.createdAt.$gte = new Date(startDate);
+    }
+    if (endDate) {
+      query.createdAt.$lte = new Date(endDate);
+    }
+  }
+
+  const count = await dsrInvoiceModel.countDocuments(query);
+  return count ;
+};

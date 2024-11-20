@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createDsrInvoiceSchema, getDsrInvoiceSchema, updateDsrInvoiceSchema } from "../validator/dsrInvoice";
-import { createDsrInvoice, getAllDsrInvoice, updateDsrInvoice } from "../utils/dsrInvoice";
+import { createDsrInvoice, getAccessoriesCount, getAllDsrInvoice, getElectronicCount, getMobileCount, updateDsrInvoice } from "../utils/dsrInvoice";
 import ApiError from "../utils/api-error";
 import { getBranchById } from "../utils/branch";
 import { IRoles, IUser } from "../types/user";
@@ -83,4 +83,26 @@ export default class DsrInvoiceController {
       next (e);
     }
   };
+
+  static getDashBoardCountData = async (req: CustomRequest, res: Response, next: NextFunction) => {
+    try {
+      const result = await getDsrInvoiceSchema.validateAsync(req.query);
+      const branch = await getBranchById(result.branchId);
+      if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+
+      const mobileCount = await getMobileCount(result.branchId, result.from, result.to);
+      const accessoriesCount = await getAccessoriesCount(result.branchId, result.startDate, result.endDate);
+      const electronicCount = await getElectronicCount(result.branchId, result.from, result.to);
+
+      const dashBoardCount = {
+       mobileCount,
+       accessoriesCount,
+       electronicCount,
+      }
+      
+      return res.status(200).json({ status: 200, data: {dashBoardCount}, error: null});
+    } catch (e) {
+      return next(e);
+    }
+  }
 }

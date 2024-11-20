@@ -11,4 +11,6 @@ router.put('/edit-dsr-invoice', authenticateToken([IRoles.SUPER_ADMIN, IRoles.AD
 
 router.get('/dsr-invoice', DsrInvoiceController.getDsrInvoiceDetails)
 
+router.get('/dashboard-count', DsrInvoiceController.getDashBoardCountData)
+
 export default router;
