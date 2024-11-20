@@ -9,8 +9,10 @@ router.post('/add-dsr-invoice',authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADM
 
 router.put('/edit-dsr-invoice', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN]), DsrInvoiceController.updateDsrInvoice);
 
-router.get('/dsr-invoice', DsrInvoiceController.getDsrInvoiceDetails)
+router.get('/dsr-invoice', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN, IRoles.SALESMAN]), DsrInvoiceController.getDsrInvoiceDetails)
 
-router.get('/dashboard-count', DsrInvoiceController.getDashBoardCountData)
+router.get('/dashboard-count', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN, IRoles.SALESMAN]), DsrInvoiceController.getDashBoardCountData)
+
+router.get('/dsr-invoice-excel-data', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN, IRoles.SALESMAN]), DsrInvoiceController.getDSRInvoiceExcelData);
 
 export default router;

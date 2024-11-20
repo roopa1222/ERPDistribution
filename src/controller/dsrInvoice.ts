@@ -5,6 +5,7 @@ import ApiError from "../utils/api-error";
 import { getBranchById } from "../utils/branch";
 import { IRoles, IUser } from "../types/user";
 import { CustomRequest } from "../middlewares/auth";
+import jsonToExcel from '../utils/excel';
 
 
 export default class DsrInvoiceController {
@@ -59,12 +60,15 @@ export default class DsrInvoiceController {
     }
   };
 
-   static getDsrInvoiceDetails = async (req: Request, res: Response, next: NextFunction) => {
+   static getDsrInvoiceDetails = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const result = await getDsrInvoiceSchema.validateAsync(req.query);
-        const branch = await getBranchById(result.branchId);
-        if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+        const user = req.user
 
+        if (user?.role === IRoles.SALESMAN) {
+          const branchIdFromToken = user.branchId;
+          result.branchId = branchIdFromToken;
+        } 
         const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate)
         
         return res.status(200).json({ status: 200, data: {dsrData}, error: null});
@@ -73,12 +77,25 @@ export default class DsrInvoiceController {
     }
    }
 
-  static getDSRInvoiceExcelData = async (req: Request, res: Response, next: NextFunction)=>{
+  static getDSRInvoiceExcelData = async (req: CustomRequest, res: Response, next: NextFunction)=>{
 
     try {
-      // const result = await getDsrInvoiceSchema.validateAsync(req.query);
-      //       const branch = await getBranchById(result.branchId);
-      //       if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+      const result = await getDsrInvoiceSchema.validateAsync(req.query);
+
+       const user = req.user
+       if (user?.role === IRoles.SALESMAN) {
+        const branchIdFromToken = user.branchId;
+        result.branchId = branchIdFromToken;
+       }
+       const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate)
+
+
+       const excelBuffer = jsonToExcel(dsrData);
+
+       res.set('Content-Disposition', `attachment; filename=DSR_DATA.xlsx`);
+       res.type('application/octet-stream');
+       return res.send(excelBuffer);
+
     } catch (e){
       next (e);
     }
@@ -87,8 +104,12 @@ export default class DsrInvoiceController {
   static getDashBoardCountData = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
       const result = await getDsrInvoiceSchema.validateAsync(req.query);
-      const branch = await getBranchById(result.branchId);
-      if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+      const user = req.user
+
+      if (user?.role === IRoles.SALESMAN) {
+        const branchIdFromToken = user.branchId;
+        result.branchId = branchIdFromToken;
+      }
 
       const mobileCount = await getMobileCount(result.branchId, result.from, result.to);
       const accessoriesCount = await getAccessoriesCount(result.branchId, result.startDate, result.endDate);
