@@ -19,8 +19,8 @@ export enum IPaymentMode {
     Credit = "Credit",
     Cash = "Cash",
     Pending = "Pending",
-    Finance1 = "Finance1",
-    Finance2 = "Finance2",
+    '1Finance' = "1Finance",
+    '2Finance' = "2Finance",
     BuyBack = "BuyBack",
   }
 
