@@ -39,7 +39,7 @@ export const updateDsrInvoiceSchema = Joi.object({
 });
 
 export const getDsrInvoiceSchema = Joi.object({
-  branchId: Joi.string().required(),
+  branchId: Joi.string().optional(),
   from: Joi.string().optional(),
   to: Joi.string().optional(),
 });
