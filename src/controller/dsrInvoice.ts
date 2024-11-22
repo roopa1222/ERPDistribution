@@ -77,27 +77,49 @@ export default class DsrInvoiceController {
     }
    }
 
-  static getDSRInvoiceExcelData = async (req: CustomRequest, res: Response, next: NextFunction)=>{
-
+  static getDSRInvoiceExcelData = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
       const result = await getDsrInvoiceSchema.validateAsync(req.query);
 
-       const user = req.user
-       if (user?.role === IRoles.SALESMAN) {
+      const user = req.user;
+      if (user?.role === IRoles.SALESMAN) {
         const branchIdFromToken = user.branchId;
         result.branchId = branchIdFromToken;
-       }
-       const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate)
+      }
 
+      const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate);
+      
+      // Format the data for Excel with separate rows for each payment detail
+      const formattedData = dsrData.flatMap(item => {
+        // Create base data without payment details
+        const baseData = {
+          productName: item.productName,
+          customerName: item.customerName,
+          customerMobileNo: item.customerMobileNo,
+          totalAmount: item.totalAmount,
+          serialNo: item.serialNo,
+          category: item.category,
+          branchName: item.branchName,
+          createdAt: item.createdAt,
+          financeDetails: JSON.stringify(item.financeDetails)
+        };
 
-       const excelBuffer = jsonToExcel(dsrData);
+        // Create a separate row for each payment detail
+      //   return item.paymentDetails.map((payment: { mode: any; amount: any; }) => ({
+      //     ...baseData,
+      //     paymentMode: payment.mode,
+      //     paymentAmount: payment.amount
+      //   }));
+      });
 
-       res.set('Content-Disposition', `attachment; filename=DSR_DATA.xlsx`);
-       res.type('application/octet-stream');
-       return res.send(excelBuffer);
+      const excelBuffer = jsonToExcel(formattedData);
 
-    } catch (e){
-      next (e);
+      res.set('Content-Disposition', `attachment; filename=DSR_DATA.xlsx`);
+      res.type('application/octet-stream');
+      return res.send(excelBuffer);
+
+    } catch (e) {
+      next(e);
     }
   };
 
