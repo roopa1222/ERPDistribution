@@ -3,24 +3,14 @@ import { Request, Response, NextFunction } from 'express';
 import { IRoles } from '../types/user'; // Ensure the correct import path
 import ApiError from '../utils/api-error';
 
-export interface CustomRequest extends Request {
-  user?: {
-    email: string;
-    id: number;
-    role: IRoles;
-    token: string;
-    branchId: string;
-  };
-}
-
 interface JwtPayload {
-  id: number;
+  id: string;
   email: string;
   role: IRoles;
   branchId: string;
 }
 
-const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
+const authenticateToken = (roles: IRoles[]) => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
@@ -46,7 +36,7 @@ const authenticateToken = (roles: IRoles[]) => async (req: CustomRequest, res: R
       id: decoded.id,
       role: decoded.role,
       token: token,
-      branchId: decoded.branchId,
+      branchId: decoded.branchId, 
     };
 
     // Check if the user's role is authorized

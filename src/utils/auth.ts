@@ -22,6 +22,12 @@ export const getUserByEmail = async (email: string) => {
 
 };
 
+export const getUserById = async (id: string) => {
+  const user = await userModel.findOne({ id });
+  return user;
+
+};
+
 export const addUser =  async (data: object) => {
   const addUser =  await userModel.create(data);
   return addUser;

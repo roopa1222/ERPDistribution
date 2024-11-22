@@ -4,17 +4,16 @@ import { createDsrInvoice, getAccessoriesCount, getAllDsrInvoice, getElectronicC
 import ApiError from "../utils/api-error";
 import { getBranchById } from "../utils/branch";
 import { IRoles, IUser } from "../types/user";
-import { CustomRequest } from "../middlewares/auth";
 import jsonToExcel from '../utils/excel';
 
 
 export default class DsrInvoiceController {
 
-  static createDsrInvoice = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  static createDsrInvoice = async (req: Request, res: Response, next: NextFunction) => {
     try{
       const result = await createDsrInvoiceSchema.validateAsync(req.body);
 
-       const user = req.user
+       const user = req.user as IUser;;
      // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
      if (user?.role === IRoles.SALESMAN) {
       const branchIdFromToken = user.branchId;
@@ -35,11 +34,11 @@ export default class DsrInvoiceController {
     }
   };
 
-  static updateDsrInvoice = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  static updateDsrInvoice = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await updateDsrInvoiceSchema.validateAsync(req.body);
     
-      const user = req.user
+      const user = req.user as IUser;
       // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
       if (user?.role === IRoles.SALESMAN) {
        const branchIdFromToken = user.branchId;
@@ -60,10 +59,10 @@ export default class DsrInvoiceController {
     }
   };
 
-   static getDsrInvoiceDetails = async (req: CustomRequest, res: Response, next: NextFunction) => {
+   static getDsrInvoiceDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await getDsrInvoiceSchema.validateAsync(req.query);
-        const user = req.user
+        const user = req.user as IUser;
 
         if (user?.role === IRoles.SALESMAN) {
           const branchIdFromToken = user.branchId;
@@ -77,11 +76,11 @@ export default class DsrInvoiceController {
     }
    }
 
-  static getDSRInvoiceExcelData = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  static getDSRInvoiceExcelData = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await getDsrInvoiceSchema.validateAsync(req.query);
 
-      const user = req.user;
+      const user = req.user as IUser;;
       if (user?.role === IRoles.SALESMAN) {
         const branchIdFromToken = user.branchId;
         result.branchId = branchIdFromToken;
@@ -123,10 +122,10 @@ export default class DsrInvoiceController {
     }
   };
 
-  static getDashBoardCountData = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  static getDashBoardCountData = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await getDsrInvoiceSchema.validateAsync(req.query);
-      const user = req.user
+      const user = req.user as IUser;
 
       if (user?.role === IRoles.SALESMAN) {
         const branchIdFromToken = user.branchId;

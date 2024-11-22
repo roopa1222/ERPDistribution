@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { basicLoggerMiddleware, detailedAccessLoggerMiddleware } from './middlewares/morgan';
 import errorHandlingMiddleWare from './middlewares/error-handler';
+import passport from 'passport';
+import './middlewares/passport';
 
 
 // Initialization
@@ -22,6 +24,7 @@ app.use(cors({
   // accept all url
   origin: '*',
 })); // Enable Cors for browsers
+app.use(passport.initialize()); 
 const check = (req: Request, res: Response) => {
   res.send('Express + TypeScript Server...');
 };
