@@ -1,4 +1,4 @@
-import dailyExpenceModel from "../db/models/dailyExpence";
+import dailyexpenseModel from "../db/models/dailyExpense";
 import dsrInvoiceModel from "../db/models/dsrInvoice";
 
 
@@ -35,7 +35,7 @@ export const getAllDsrInvoice = async (branchId?: string, from?: string, to?: st
       $lte: new Date(to)
     };
   }
-  const sampleExpense = await dailyExpenceModel.findOne({ branchId: query.branchId }).lean();
+  const sampleExpense = await dailyexpenseModel.findOne({ branchId: query.branchId }).lean();
 console.log('Sample expense document:', sampleExpense);
 
   const dsrData = await dsrInvoiceModel.aggregate([
@@ -59,7 +59,7 @@ console.log('Sample expense document:', sampleExpense);
     },
     {
       $lookup: {
-        from: 'dailyExpences',
+        from: 'dailyexpenses',
         let: { branchId: '$branchId', date: '$createdAt' },
         pipeline: [
           {
@@ -96,8 +96,8 @@ console.log('Sample expense document:', sampleExpense);
         paymentMode: 1,
         totalAmount: 1,    
         branchName: '$branchDetails.branchName', 
-        expenceNarration: "$expenseDetails.expenceNarration",
-        expenceAmount: "$expenseDetails.expenceAmount",
+        expenseNarration: "$expenseDetails.expenseNarration",
+        expenseAmount: "$expenseDetails.expenseAmount",
         openingBalance: "$expenseDetails.openingBalance",
         closingBalance: "$expenseDetails.closingBalance",
         createdAt: { 

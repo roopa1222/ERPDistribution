@@ -87,30 +87,47 @@ export default class DsrInvoiceController {
       }
 
       const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate);
-      
-      // Format the data for Excel with separate rows for each payment detail
+    
       const formattedData = dsrData.flatMap(item => {
-        // Create base data without payment details
         const baseData = {
           productName: item.productName,
-          customerName: item.customerName,
-          customerMobileNo: item.customerMobileNo,
-          totalAmount: item.totalAmount,
           serialNo: item.serialNo,
           category: item.category,
+          totalAmount: item.totalAmount,
           branchName: item.branchName,
           createdAt: item.createdAt,
-          financeDetails: JSON.stringify(item.financeDetails)
+          customerName: item.customerName,
+          customerMobileNo: item.customerMobileNo,
         };
 
-        // Create a separate row for each payment detail
-      //   return item.paymentDetails.map((payment: { mode: any; amount: any; }) => ({
-      //     ...baseData,
-      //     paymentMode: payment.mode,
-      //     paymentAmount: payment.amount
-      //   }));
-      });
+  // Flatten paymentDetails
+  const paymentColumns: any = {};
+  if (Array.isArray(item.paymentDetails)) {
+    item.paymentDetails.forEach((payment: any, index:any) => {
+      paymentColumns[`paymentMode_${index + 1}`] = payment.mode || null;
+      paymentColumns[`paymentAmount_${index + 1}`] = payment.amount || null;
+    });
+  }
 
+  // Flatten financeDetails
+  const financeColumns: any = {};
+  if (Array.isArray(item.financeDetails)) {
+    item.financeDetails.forEach((finance: any, index: any) => {
+      financeColumns[`financeType_${index + 1}`] = finance.financeName || null;
+      financeColumns[`financeAmount_${index + 1}`] = finance.amount || null;
+    });
+  }
+
+  // Merge all data
+  return {
+    ...baseData,
+    ...paymentColumns,
+    ...financeColumns,
+  };
+});
+
+console.log('Formatted Data:', formattedData);
+      
       const excelBuffer = jsonToExcel(formattedData);
 
       res.set('Content-Disposition', `attachment; filename=DSR_DATA.xlsx`);
