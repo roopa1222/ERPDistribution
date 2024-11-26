@@ -9,4 +9,8 @@ router.post('/add-expense', authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN,
 
 router.put('/edit-expense',authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN, IRoles.SALESMAN]), DailyexpenseController.updateDailyExepnce);
 
+router.get('/daily-expense',
+    //  authenticateToken([IRoles.SUPER_ADMIN, IRoles.ADMIN, IRoles.SALESMAN]), 
+DailyexpenseController.getDailyExpenseDetails);
+
 export default router;
