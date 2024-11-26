@@ -3,6 +3,7 @@ import { addDailyexpenseSchema, updateDailyexpenseSchema } from "../validator/da
 import { getBranchById } from "../utils/branch";
 import ApiError from "../utils/api-error";
 import { createDailyexpense, updateDailyexpense } from "../utils/dailyExpense";
+import { IRoles, IUser } from "../types/user";
 
 export default class DailyexpenseController {
 
@@ -10,8 +11,17 @@ export default class DailyexpenseController {
     try {
       const result = await addDailyexpenseSchema.validateAsync(req.body);
 
+      const user = req.user as IUser;
+      // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
+      if (user?.role === IRoles.SALESMAN) {
+       const branchIdFromToken = user.branchId;
+       result.branchId = branchIdFromToken;
+     } else {
+      if (!req.body.branchId) return next(ApiError.customError(422, 'branch is required'));
       const branch = await getBranchById(result.branchId);
       if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+     }
+ 
 
       const addexpense = await createDailyexpense(result);
       if(!addexpense) return next(ApiError.customError(422, 'Daily Expense Not Created'));
