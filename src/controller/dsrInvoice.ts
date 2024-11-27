@@ -13,7 +13,8 @@ export default class DsrInvoiceController {
     try{
       const result = await createDsrInvoiceSchema.validateAsync(req.body);
 
-       const user = req.user as IUser;;
+       const user = req.user as IUser;
+       
      // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
      if (user?.role === IRoles.SALESMAN) {
       const branchIdFromToken = user.branchId;
@@ -61,6 +62,7 @@ export default class DsrInvoiceController {
 
    static getDsrInvoiceDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      
         const result = await getDsrInvoiceSchema.validateAsync(req.query);
         const user = req.user as IUser;
 
@@ -68,9 +70,10 @@ export default class DsrInvoiceController {
           const branchIdFromToken = user.branchId;
           result.branchId = branchIdFromToken;
         } 
-        const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate)
+
+        const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate,parseInt(result.limit,10),parseInt(result.offset,10))
         
-        return res.status(200).json({ status: 200, data: {dsrData}, error: null});
+        return res.status(200).json({ status: 200, dsrData, error: null});
       } catch(e) {
       return next(e);
     }
@@ -88,7 +91,7 @@ export default class DsrInvoiceController {
 
       const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate);
     
-      const formattedData = dsrData.flatMap(item => {
+      const formattedData = dsrData?.dsrData?.flatMap(item => {
         const baseData = {
           productName: item.productName,
           serialNo: item.serialNo,
