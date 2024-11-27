@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
-export interface IDailyexpense {
-  expenseNarration: string;
+export interface IDailyExpence {
+  expenseName: string;
   expenseAmount: number;
   openingBalance: number;
   closingBalance: number;

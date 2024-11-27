@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { IDailyExpence } from "../../types/dailyExpense"
+import { IDailyExpence } from "../../types/dailyExpense";
 
 
-export const dailyexpenseSchema = new Schema<IDailyExpence>({
+export const dailyExpenceSchema = new Schema<IDailyExpence>({
   expenseName: { type: String}, 
   expenseAmount: { type: Number},
   openingBalance: { type: Number },
@@ -11,7 +11,7 @@ export const dailyexpenseSchema = new Schema<IDailyExpence>({
 
 }, { timestamps: true });
   
-const dailyexpenseModel = mongoose.model<IDailyExpence>('dailyExpense', dailyexpenseSchema);
+const dailyExpenceModel = mongoose.model<IDailyExpence>('dailyExpence', dailyExpenceSchema);
 
-export default dailyexpenseModel;
+export default dailyExpenceModel;
   

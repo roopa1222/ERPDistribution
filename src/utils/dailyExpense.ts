@@ -54,7 +54,7 @@ export const getDailyExpenseDetails = async (branchId?: string, startDate?: stri
     {
       $project: {
         _id: 0, // Exclude `_id` from the result
-        expenseNarration: 1,
+        expenseName: 1,
         expenseAmount: 1,
         branchId: '$branchDetails._id',
         branchName: '$branchDetails.branchName',

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { addDailyexpenseSchema, updateDailyexpenseSchema } from "../validator/dailyExpense";
+import {  addDailyExpenceSchema, updateDailyExpenceSchema } from "../validator/dailyExpense";
 import { getBranchById } from "../utils/branch";
 import ApiError from "../utils/api-error";
 import { createDailyexpense, updateDailyexpense, getDailyExpenseDetails } from "../utils/dailyExpense";
@@ -10,8 +10,7 @@ export default class DailyexpenseController {
 
   static addDailyexpense = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await addDailyexpenseSchema.validateAsync(req.body);
-
+      const result = await addDailyExpenceSchema.validateAsync(req.body);
       const user = req.user as IUser;
       // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
       if (user?.role === IRoles.SALESMAN) {
@@ -37,7 +36,7 @@ export default class DailyexpenseController {
 
   static updateDailyExepnce = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await updateDailyexpenseSchema.validateAsync(req.query);
+      const result = await updateDailyExpenceSchema.validateAsync(req.query);
         
       const user = req.user as IUser;
       // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
