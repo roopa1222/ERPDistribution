@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createDsrInvoiceSchema, getDsrInvoiceSchema, updateDsrInvoiceSchema } from "../validator/dsrInvoice";
+import { createDsrInvoiceSchema, getDashBoardCountSchema, getDsrInvoiceSchema, updateDsrInvoiceSchema } from "../validator/dsrInvoice";
 import { createDsrInvoice, getAccessoriesCount, getAllDsrInvoice, getElectronicCount, getMobileCount, updateDsrInvoice } from "../utils/dsrInvoice";
 import ApiError from "../utils/api-error";
 import { getBranchById } from "../utils/branch";
@@ -81,7 +81,7 @@ export default class DsrInvoiceController {
 
   static getDSRInvoiceExcelData = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await getDsrInvoiceSchema.validateAsync(req.query);
+      const result = await getDashBoardCountSchema.validateAsync(req.query);
 
       const user = req.user as IUser;;
       if (user?.role === IRoles.SALESMAN) {
@@ -144,7 +144,7 @@ console.log('Formatted Data:', formattedData);
 
   static getDashBoardCountData = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await getDsrInvoiceSchema.validateAsync(req.query);
+      const result = await getDashBoardCountSchema.validateAsync(req.query);
       const user = req.user as IUser;
 
       if (user?.role === IRoles.SALESMAN) {

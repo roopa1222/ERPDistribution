@@ -45,3 +45,9 @@ export const getDsrInvoiceSchema = Joi.object({
   limit: Joi.string().required(),
   offset: Joi.string().required(),
 });
+
+export const getDashBoardCountSchema = Joi.object({
+  branchId: Joi.string().allow('').optional(),
+  startDate: Joi.string().allow('').optional(),
+  endDate: Joi.string().allow('').optional(),
+});
