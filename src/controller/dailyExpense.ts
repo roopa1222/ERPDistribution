@@ -63,16 +63,16 @@ export default class DailyexpenseController {
     try {
         const result = await getDsrInvoiceSchema.validateAsync(req.query);
         console.log('srep-2', result)
-      //   const user = req.user as IUser;
-      //   // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
-      //   if (user?.role === IRoles.SALESMAN) {
-      //    const branchIdFromToken = user.branchId;
-      //    result.branchId = branchIdFromToken;
-      //  } else {
-      //   if (!req.body.branchId) return next(ApiError.customError(422, 'branch is required'));
-      //   const branch = await getBranchById(result.branchId);
-      //   if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
-      //  }
+        const user = req.user as IUser;
+        // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
+        if (user.role === IRoles.SALESMAN) {
+         const branchIdFromToken = user.branchId;
+         result.branchId = branchIdFromToken;
+       } else {
+        if (!req.body.branchId) return next(ApiError.customError(422, 'branch is required'));
+        const branch = await getBranchById(result.branchId);
+        if (!branch) return next(ApiError.customError(404, 'Branch Not Found'));
+       }
        console.log('step01')
        const getDailyExpense = await getDailyExpenseDetails(result.branchId, result.from, result.to);
        if (!getDailyExpense) return next(ApiError.customError(404, 'Daily Expense Not Found'));
