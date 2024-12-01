@@ -4,7 +4,7 @@ import { getBranchById } from "../utils/branch";
 import ApiError from "../utils/api-error";
 import { createDailyexpense, updateDailyexpense, getDailyExpenseDetails, getDailyBalanceDetails } from "../utils/dailyExpense";
 import { IRoles, IUser } from "../types/user";
-import { getDsrInvoiceSchema } from "../validator/dsrInvoice";
+import { getDashBoardCountSchema, getDsrInvoiceSchema } from "../validator/dsrInvoice";
 
 export default class DailyexpenseController {
 
@@ -61,7 +61,7 @@ export default class DailyexpenseController {
 
   static getDailyExpenseDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const result = await getDsrInvoiceSchema.validateAsync(req.query);
+        const result = await getDashBoardCountSchema.validateAsync(req.query);
         console.log('srep-2', result)
         const user = req.user as IUser;
         // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
