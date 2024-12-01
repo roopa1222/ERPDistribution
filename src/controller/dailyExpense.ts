@@ -85,7 +85,7 @@ export default class DailyexpenseController {
 
   static getDailyOpeningAndClosingBalanceDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const result = await getDsrInvoiceSchema.validateAsync(req.query);
+        const result = await getDashBoardCountSchema.validateAsync(req.query);
         console.log('srep-2', result)
         const user = req.user as IUser;
         // Check if the user has the role of SALESMAN, and handle branchId from token if necessary
