@@ -71,7 +71,7 @@ export default class DsrInvoiceController {
           result.branchId = branchIdFromToken;
         } 
 
-        const dsrData = await getAllDsrInvoice(result.branchId, result.startDate, result.endDate,parseInt(result.limit,10),parseInt(result.offset,10))
+        const dsrData = await getAllDsrInvoice(result.searchValue,result.branchId, result.startDate, result.endDate,parseInt(result.limit,10),parseInt(result.offset,10))
         
         return res.status(200).json({ status: 200, dsrData, error: null});
       } catch(e) {
@@ -81,6 +81,7 @@ export default class DsrInvoiceController {
 
   static getDSRInvoiceExcelData = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      
       const result = await getDashBoardCountSchema.validateAsync(req.query);
 
       const user = req.user as IUser;;

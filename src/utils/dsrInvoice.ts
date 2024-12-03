@@ -9,7 +9,7 @@ export const createDsrInvoice = async (data: object) => {
   return dsrInvoice;
 };
 
-export const getAllDsrInvoice = async (branchId?: string, from?: string, to?: string, limit: number = 5, offset: number = 0) => {
+export const getAllDsrInvoice = async (searchValue?:string,branchId?: string, from?: string, to?: string, limit: number = 5, offset: number = 0) => {
   try {
     let query: any = {};
 
@@ -19,10 +19,21 @@ export const getAllDsrInvoice = async (branchId?: string, from?: string, to?: st
       query.branchId = new mongoose.Types.ObjectId(branchId);
     }
 
+  // If searchValue is provided, search by productName and category
+  if (searchValue) {
+    const searchRegex = new RegExp(searchValue, 'i');  // Case-insensitive regex search
+    
+    query.$or = [
+      { productName: { $regex: searchRegex } },
+      { category: { $regex: searchRegex } },
+      { paymentMode: { $elemMatch: { $regex: searchRegex } } } // Exact match in the paymentMode array
+    ];
+  } 
+
     // If from and to dates are provided, filter by createdAt date range
     if (from && to) {
-      const startDate = new Date(new Date(from).setHours(0, 0, 0, 0)); // Start of the day
-      const endDate = new Date(new Date(to).setHours(23, 59, 59, 999)); // End of the day
+      const startDate = new Date(`${from}T00:00:00.000Z`); // Start of the day in UTC
+      const endDate = new Date(`${to}T23:59:59.999Z`); 
 
       query.createdAt = {
         $gte: startDate,
