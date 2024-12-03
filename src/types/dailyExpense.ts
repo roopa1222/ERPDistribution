@@ -6,4 +6,10 @@ export interface IDailyExpence {
   openingBalance: number;
   closingBalance: number;
   branchId: string | Types.ObjectId;
+  expenseType: string
+}
+
+export enum IExpense {
+  EXPENSE = 'expense',
+  BALANCE = 'Balance',
 }

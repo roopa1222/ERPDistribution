@@ -31,6 +31,7 @@ export const getDailyExpenseDetails = async (branchId?: string, startDate?: stri
       matchConditions.expenseDate.$lte = new Date(endDate);
     }
   }
+  matchConditions.expenseType = "expense";
 
   // Perform the aggregation
   const expenses = await mongoose.model('dailyExpense').aggregate([
@@ -56,6 +57,7 @@ export const getDailyExpenseDetails = async (branchId?: string, startDate?: stri
         _id: 0, // Exclude `_id` from the result
         expenseName: 1,
         expenseAmount: 1,
+        expenseType: 1,
         branchId: '$branchDetails._id',
         branchName: '$branchDetails.branchName',
         createdAt: { 
@@ -92,6 +94,7 @@ export const getDailyBalanceDetails = async (branchId?: string, startDate?: stri
     }
   }
 
+  matchConditions.expenseType = "balance";
   // Perform the aggregation
   const expenses = await mongoose.model('dailyExpense').aggregate([
     {
@@ -116,6 +119,7 @@ export const getDailyBalanceDetails = async (branchId?: string, startDate?: stri
         _id: 0, // Exclude `_id` from the result
         openingBalance: 1,
         closingBalance: 1,
+        expenseType: 1,
         branchId: '$branchDetails._id',
         branchName: '$branchDetails.branchName',
         createdAt: { 

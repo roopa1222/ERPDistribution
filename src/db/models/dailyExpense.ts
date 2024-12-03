@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IDailyExpence } from "../../types/dailyExpense"
+import { IDailyExpence, IExpense } from "../../types/dailyExpense"
 
 
 export const dailyexpenseSchema = new Schema<IDailyExpence>({
@@ -7,6 +7,7 @@ export const dailyexpenseSchema = new Schema<IDailyExpence>({
   expenseAmount: { type: Number},
   openingBalance: { type: Number },
   closingBalance: { type: Number },
+  expenseType: {type: String, enum: IExpense},
   branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' }
 
 }, { timestamps: true });

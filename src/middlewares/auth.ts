@@ -14,7 +14,7 @@ const authenticateToken = (roles: IRoles[]) => async (req: Request, res: Respons
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return next(ApiError.forbidden());  // No token, forbidden access
+    return next(ApiError.customError(422, 'Incorrect Password'));;  // No token, forbidden access
   }
 
   try {
@@ -41,12 +41,12 @@ const authenticateToken = (roles: IRoles[]) => async (req: Request, res: Respons
 
     // Check if the user's role is authorized
     if (!roles.includes(decoded.role)) {
-      return next(ApiError.forbidden());  // Forbidden, user doesn't have the right role
+      return next(ApiError.customError(422, 'User role not found'));;  // Forbidden, user doesn't have the right role
     }
 
     return next();  // Continue to the next middleware or route handler
   } catch (err) {
-    return next(ApiError.badRequest());  // Catch JWT errors, such as invalid token
+    return next(ApiError.customError(404, 'Invalid token. Please try to login'));;  // Catch JWT errors, such as invalid token
   }
 };
 
