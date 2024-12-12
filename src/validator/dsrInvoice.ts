@@ -2,53 +2,72 @@ import Joi from "joi";
 import { ICategoryType, IPaymentMode } from "../types/dsrInvoice";
 
 const paymentDetailSchema = Joi.object({
-  mode: Joi.string().valid(...Object.values(IPaymentMode)).required(), // Enum validation for payment mode
+  mode: Joi.string()
+    .valid(...Object.values(IPaymentMode))
+    .required(), // Enum validation for payment mode
   amount: Joi.number().required(), // Amount is required
 });
 
 const financeDetailSchema = Joi.object({
-  financeName: Joi.string().optional().allow('').allow(null), // Enum validation for payment mode
+  financeName: Joi.string().optional().allow("").allow(null), // Enum validation for payment mode
   amount: Joi.number().required(), // Amount is required
 });
 
 export const createDsrInvoiceSchema = Joi.object({
   productName: Joi.string().required(),
-  serialNo: Joi.string().optional().allow('').allow(null),
-  paymentMode: Joi.array().items(Joi.string().valid(...Object.values(IPaymentMode))).required(), // This allows an array of payment modes
+  serialNo: Joi.string().optional().allow("").allow(null),
+  paymentMode: Joi.array()
+    .items(Joi.string().valid(...Object.values(IPaymentMode)))
+    .required(), // This allows an array of payment modes
   paymentDetails: Joi.array().items(paymentDetailSchema).required(), // Array of payment details
-  financeDetails: Joi.array().items(financeDetailSchema).optional().allow(null).allow(''),
-  customerName: Joi.string().optional().allow(null).allow(''),
-  customerMobileNo: Joi.number().optional().allow(null).allow(''),
+  financeDetails: Joi.array()
+    .items(financeDetailSchema)
+    .optional()
+    .allow(null)
+    .allow(""),
+  customerName: Joi.string().optional().allow(null).allow(""),
+  customerMobileNo: Joi.number().optional().allow(null).allow(""),
   totalAmount: Joi.number().optional(),
-  category: Joi.string().valid(...Object.values(ICategoryType)).required(),
-  branchId: Joi.string().optional().allow(null).allow('')
+  category: Joi.string()
+    .valid(...Object.values(ICategoryType))
+    .required(),
+  branchId: Joi.string().optional().allow(null).allow(""),
 });
 
 export const updateDsrInvoiceSchema = Joi.object({
   id: Joi.string().required(),
   productName: Joi.string().required(),
+  serialNo: Joi.string().optional().allow("").allow(null),
   productCode: Joi.string().optional(),
-  paymentMode: Joi.array().items(Joi.string().valid(...Object.values(IPaymentMode))).required(), // This allows an array of payment modes
+  paymentMode: Joi.array()
+    .items(Joi.string().valid(...Object.values(IPaymentMode)))
+    .required(), // This allows an array of payment modes
   paymentDetails: Joi.array().items(paymentDetailSchema).required(), // Array of payment details
-  financeDetails: Joi.array().items(paymentDetailSchema).optional().allow(null).allow(''),
-  customerName: Joi.string().optional(),
-  customerMobileNo: Joi.number().optional(),
+  financeDetails: Joi.array()
+    .items(financeDetailSchema)
+    .optional()
+    .allow(null)
+    .allow(""),
+  customerName: Joi.string().allow("").optional(),
+  customerMobileNo: Joi.number().allow("").optional(),
   totalAmount: Joi.number().optional(),
-  category: Joi.string().valid(...Object.values(ICategoryType)).required(),
+  category: Joi.string()
+    .valid(...Object.values(ICategoryType))
+    .required(),
   branchId: Joi.string().required(),
 });
 
 export const getDsrInvoiceSchema = Joi.object({
-  searchValue: Joi.string().allow('').optional(),
-  branchId: Joi.string().allow('').optional(),
-  startDate: Joi.string().allow('').optional(),
-  endDate: Joi.string().allow('').optional(),
+  searchValue: Joi.string().allow("").optional(),
+  branchId: Joi.string().allow("").optional(),
+  startDate: Joi.string().allow("").optional(),
+  endDate: Joi.string().allow("").optional(),
   limit: Joi.string().required(),
   offset: Joi.string().required(),
 });
 
 export const getDashBoardCountSchema = Joi.object({
-  branchId: Joi.string().allow('').optional(),
-  startDate: Joi.string().allow('').optional(),
-  endDate: Joi.string().allow('').optional(),
+  branchId: Joi.string().allow("").optional(),
+  startDate: Joi.string().allow("").optional(),
+  endDate: Joi.string().allow("").optional(),
 });
