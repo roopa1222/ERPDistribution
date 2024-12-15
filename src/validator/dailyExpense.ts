@@ -2,6 +2,7 @@ import Joi from "joi";
 import { IExpense } from "../types/dailyExpense";
 
 export const addDailyExpenceSchema = Joi.object({
+  // totalExpense:Joi.string().optional(),
   expenseName: Joi.string().optional(),
   expenseAmount: Joi.number().optional(),
   openingBalance: Joi.number().optional(),

@@ -1,5 +1,5 @@
 import { log } from "winston";
-import dailyExpenceModel from "../db/models/dailyExpence";
+import dailyExpenceModel from "../db/models/dailyExpense";
 import dsrInvoiceModel from "../db/models/dsrInvoice";
 
 export const createDsrInvoice = async (data: object) => {

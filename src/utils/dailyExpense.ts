@@ -94,7 +94,7 @@ export const getDailyBalanceDetails = async (branchId?: string, startDate?: stri
     }
   }
 
-  matchConditions.expenseType = "balance";
+  matchConditions.expenseType = "Balance";
   // Perform the aggregation
   const expenses = await mongoose.model('dailyExpense').aggregate([
     {
